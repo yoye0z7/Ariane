@@ -1,9 +1,19 @@
 package com.uniovi.aariane;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.channels.FileChannel;
 import java.util.Locale;
 
+import android.content.ContentResolver;
+import android.content.Intent;
+import android.database.Cursor;
 import android.hardware.Camera;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -18,8 +28,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class ToolListActivity extends FragmentActivity {
-	Camera cam;
-	Camera.Parameters ekparam;
+	private Camera cam;
+	private Camera.Parameters ekparam;
+
+	private Uri audioFileUri;
+
+	private static final Integer ACTION_AUDIO = 0;
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
 	 * fragments for each of the sections. We use a
@@ -77,8 +91,15 @@ public class ToolListActivity extends FragmentActivity {
 			NavUtils.navigateUpFromSameTask(this);
 			return true;
 		case R.id.action_on:
-			ekparam.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-			cam.setParameters(ekparam);
+			// ekparam.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+			// cam.setParameters(ekparam);
+			Intent intent = new Intent(
+					MediaStore.Audio.Media.RECORD_SOUND_ACTION);
+			intent.putExtra(
+					MediaStore.EXTRA_OUTPUT,
+					Environment
+							.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC));
+			startActivityForResult(intent, ACTION_AUDIO);
 			return true;
 		case R.id.action_off:
 			ekparam.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
@@ -87,6 +108,38 @@ public class ToolListActivity extends FragmentActivity {
 
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == RESULT_OK && requestCode == ACTION_AUDIO) {
+			audioFileUri = data.getData();
+			
+			//Obtener la ruta real
+			String[] proj = { MediaStore.Audio.Media.DATA };
+			Cursor cursor = getContentResolver().query(audioFileUri, proj,
+					null, null, null);
+			int column_index = cursor
+					.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
+			cursor.moveToFirst();
+
+			//Mover el ficehro
+			try {
+
+				File afile = new File(cursor.getString(column_index));
+
+				if (afile.renameTo(new File(Environment
+						.getExternalStorageDirectory().getAbsolutePath()
+						+ "/ARIANE/Grabaciones/" + afile.getName()))) {
+					System.out.println("File is moved successful!");
+				} else {
+					System.out.println("File is failed to move!");
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override
