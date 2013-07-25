@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="tools">
+        <item >Draw Kit</item>
+        <item >Lantern</item>
+        <item >Audio</item>
+        <item >Camera</item>
+        <item >Video</item>
+        <item >Questionnaire</item>
+    </string-array>
+    
+</resources>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Ariane</string>
+
+    <!-- Action bar items -->
+    <string name="action_about">About Ariane</string>
+
+    <!-- Buttons -->
+    <string name="bt_adventure">Adventures</string>
+    <string name="bt_result">Evaluation results</string>
+    <string name="bt_tool">Tools</string>
+
+    <!-- About dialog -->
+    <string name="developed_about">About ARIANE</string>
+    <string name="developed_title">Developed by:</string>
+    <string name="developed_programmer">Jose Antonio Hernández García</string>
+    <string name="developed_lecturer">Alejo Hernández García</string>
+    <string name="developed_director">Victor álvarez</string>
+    <string name="developed_codirector">Juan Ramón Perez Perez</string>
+    <string name="bt_close">Close</string>
+    <string name="title_adventure_list">Adventures</string>
+    <string name="title_adventure_detail">Adventure Detail</string>
+    <string name="bt_start">Start</string>
+    <string name="title_mission_list">Missions</string>
+    <string name="title_mission_detail">Mission Detail</string>
+    <string name="title_activity_tool_list">Tools</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_section1">Lantern</string>
+    <string name="title_section2">Draw kit</string>
+    <string name="title_section3">Camera</string>
+    <string name="action_on"></string>
+    <string name="action_off">Off</string>
+
+</resources>
