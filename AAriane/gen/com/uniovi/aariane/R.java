@@ -9,10 +9,12 @@ package com.uniovi.aariane;
 
 public final class R {
     public static final class array {
-        public static final int pref_example_list_titles=0x7f0b0001;
-        public static final int pref_example_list_values=0x7f0b0002;
-        public static final int pref_sync_frequency_titles=0x7f0b0003;
-        public static final int pref_sync_frequency_values=0x7f0b0004;
+        public static final int descriptions=0x7f0b0002;
+        public static final int methods=0x7f0b0001;
+        public static final int pref_example_list_titles=0x7f0b0003;
+        public static final int pref_example_list_values=0x7f0b0004;
+        public static final int pref_sync_frequency_titles=0x7f0b0005;
+        public static final int pref_sync_frequency_values=0x7f0b0006;
         public static final int tools=0x7f0b0000;
     }
     public static final class attr {
@@ -915,6 +917,7 @@ containing a value of this type.
         public static final int ic_about_dark=0x7f020055;
         public static final int ic_about_light=0x7f020056;
         public static final int ic_launcher=0x7f020057;
+        public static final int tool_lantern=0x7f020058;
     }
     public static final class id {
         public static final int abs__action_bar=0x7f040025;
@@ -946,10 +949,10 @@ containing a value of this type.
         public static final int abs__title=0x7f04001e;
         public static final int abs__titleDivider=0x7f04001f;
         public static final int abs__up=0x7f04000e;
-        public static final int action_about=0x7f040041;
-        public static final int action_create=0x7f040040;
-        public static final int action_off=0x7f040042;
-        public static final int action_on=0x7f040043;
+        public static final int action_about=0x7f040044;
+        public static final int action_create=0x7f040043;
+        public static final int action_off=0x7f040045;
+        public static final int action_on=0x7f040046;
         public static final int adventure_detail=0x7f04003a;
         public static final int adventure_detail_container=0x7f04002b;
         public static final int adventure_list=0x7f04002c;
@@ -958,9 +961,11 @@ containing a value of this type.
         public static final int bt_result=0x7f04002d;
         public static final int bt_start=0x7f04003d;
         public static final int bt_tool=0x7f04002f;
+        public static final int button1=0x7f040040;
         public static final int disableHome=0x7f04000c;
         public static final int fragment1=0x7f04003b;
         public static final int homeAsUp=0x7f040009;
+        public static final int iv_tool_image=0x7f040041;
         public static final int listMode=0x7f040005;
         public static final int map=0x7f04003e;
         public static final int mission_detail_container=0x7f040030;
@@ -983,6 +988,7 @@ containing a value of this type.
         public static final int tv_item=0x7f04002a;
         public static final int tv_lecturer=0x7f040036;
         public static final int tv_programmer=0x7f040035;
+        public static final int tv_tool_description=0x7f040042;
         public static final int useLogo=0x7f040007;
         public static final int wrap_content=0x7f040004;
     }

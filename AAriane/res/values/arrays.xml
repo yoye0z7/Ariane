@@ -1,12 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string-array name="tools">
-        <item >Draw Kit</item>
-        <item >Lantern</item>
-        <item >Audio</item>
-        <item >Camera</item>
-        <item >Video</item>
-        <item >Questionnaire</item>
+        <item>Draw Kit</item>
+        <item>Lantern</item>
+        <item>Audio</item>
+        <item>Camera</item>
+        <item>Video</item>
+        <item>Questionnaire</item>
     </string-array>
-    
+    <string-array name="methods">
+        <item>makeDraw</item>
+        <item>turnOnLantern</item>
+        <item>recordAudio</item>
+        <item>takePicture</item>
+        <item>recordVideo</item>
+        <item>createQuestionnaire</item>
+    </string-array>
+    <string-array name="descriptions">
+        <item>Use the drawing tools of the application and have fun!!!</item>
+        <item>Use the flashlight to light up the darkness.</item>
+        <item>Record the sounds around you to ease your way through the adventure</item>
+        <item>Take a snapshot of your surroundings</item>
+        <item>Make a recording of your surroundings and use it to pass the various tests</item>
+        <item>Questionnaire</item>
+    </string-array>
 </resources>

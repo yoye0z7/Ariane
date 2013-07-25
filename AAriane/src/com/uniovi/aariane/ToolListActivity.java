@@ -1,9 +1,12 @@
 package com.uniovi.aariane;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Locale;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.hardware.Camera;
 import android.net.Uri;
@@ -20,7 +23,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class ToolListActivity extends FragmentActivity {
@@ -131,16 +136,15 @@ public class ToolListActivity extends FragmentActivity {
 	/**
 	 * 
 	 */
-	private void turnOnLantern() {
-		ekparam.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-		cam.setParameters(ekparam);
-	}
+	public void turnOnLantern() {
 
-	/**
-	 * 
-	 */
-	private void turnOffLantern() {
-		ekparam.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+		ekparam = cam.getParameters();
+
+		if (ekparam.getFlashMode().equals(Camera.Parameters.FLASH_MODE_TORCH))
+			ekparam.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+		else
+			ekparam.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+
 		cam.setParameters(ekparam);
 	}
 
@@ -148,7 +152,7 @@ public class ToolListActivity extends FragmentActivity {
 	 * 
 	 * @param name
 	 */
-	private void recordAudio() {
+	public void recordAudio() {
 		Intent intent = new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION);
 		startActivityForResult(intent, ACTION_AUDIO);
 	}
@@ -157,10 +161,10 @@ public class ToolListActivity extends FragmentActivity {
 	 * 
 	 * @param name
 	 */
-	private void recordVideo(String name) {
+	public void recordVideo() {
 
 		createDirectory(ROOT_PATH + VIDEO_DIRECTORY);
-		File f = new File(ROOT_PATH + VIDEO_DIRECTORY, name + VIDEO_EXT);
+		File f = new File(ROOT_PATH + VIDEO_DIRECTORY, "prueba" + VIDEO_EXT);
 
 		Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
 		takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
@@ -171,10 +175,10 @@ public class ToolListActivity extends FragmentActivity {
 	 * 
 	 * @param name
 	 */
-	private void takePicture(String name) {
+	public void takePicture() {
 
 		createDirectory(ROOT_PATH + PICTURE_DIRECTORY);
-		File f = new File(ROOT_PATH + PICTURE_DIRECTORY, name + PICTURE_EXT);
+		File f = new File(ROOT_PATH + PICTURE_DIRECTORY, "prueba" + PICTURE_EXT);
 
 		Intent i = new Intent("android.media.action.IMAGE_CAPTURE");
 		i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
@@ -250,14 +254,7 @@ public class ToolListActivity extends FragmentActivity {
 
 		@Override
 		public Fragment getItem(int position) {
-			// getItem is called to instantiate the fragment for the given page.
-			// Return a DummySectionFragment (defined as a static inner class
-			// below) with the page number as its lone argument.
-			Fragment fragment = new DummySectionFragment();
-			Bundle args = new Bundle();
-			args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
-			fragment.setArguments(args);
-			return fragment;
+			return SectionFragment.newInstance(position);
 		}
 
 		@Override
@@ -276,14 +273,39 @@ public class ToolListActivity extends FragmentActivity {
 	 * A dummy fragment representing a section of the app, but that simply
 	 * displays dummy text.
 	 */
-	public static class DummySectionFragment extends Fragment {
+	public static class SectionFragment extends Fragment {
 		/**
 		 * The fragment argument representing the section number for this
 		 * fragment.
 		 */
-		public static final String ARG_SECTION_NUMBER = "section_number";
+		private static final String ARG_SECTION_NUMBER = "section_number";
 
-		public DummySectionFragment() {
+		private String tools[];
+		private String methods[];
+		private String descriptions[];
+
+		public static SectionFragment newInstance(int index) {
+			SectionFragment f = new SectionFragment();
+
+			// Supply index input as an argument.
+			Bundle args = new Bundle();
+			args.putInt(ARG_SECTION_NUMBER, index);
+			f.setArguments(args);
+
+			return f;
+		}
+
+		public SectionFragment() {
+
+		}
+
+		@Override
+		public void onAttach(Activity activity) {
+			super.onAttach(activity);
+			Resources res = getResources();
+			tools = res.getStringArray(R.array.tools);
+			methods = res.getStringArray(R.array.methods);
+			descriptions = res.getStringArray(R.array.descriptions);
 		}
 
 		@Override
@@ -291,10 +313,45 @@ public class ToolListActivity extends FragmentActivity {
 				Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_tool_list_dummy,
 					container, false);
-			TextView dummyTextView = (TextView) rootView
-					.findViewById(R.id.section_label);
-			dummyTextView.setText(Integer.toString(getArguments().getInt(
-					ARG_SECTION_NUMBER)));
+
+			((TextView) rootView.findViewById(R.id.section_label))
+					.setText(tools[getArguments().getInt(ARG_SECTION_NUMBER)]);
+			
+			((TextView) rootView.findViewById(R.id.tv_tool_description))
+			.setText(descriptions[getArguments().getInt(ARG_SECTION_NUMBER)]);
+
+//			ImageView image = (ImageView) rootView
+//					.findViewById(R.id.iv_tool_image);
+			Button bt_tool = (Button) rootView.findViewById(R.id.bt_tool);
+			bt_tool.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					java.lang.reflect.Method method;
+					try {
+						method = getActivity().getClass().getMethod(
+								methods[getArguments().getInt(
+										ARG_SECTION_NUMBER)]);
+
+						method.invoke(getActivity());
+					} catch (SecurityException e) {
+						// ...
+					} catch (NoSuchMethodException e) {
+						// ...
+					} catch (IllegalArgumentException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IllegalAccessException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (InvocationTargetException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+			});
+
 			return rootView;
 		}
 	}
