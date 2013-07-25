@@ -1,12 +1,8 @@
 package com.uniovi.aariane;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.nio.channels.FileChannel;
 import java.util.Locale;
 
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.hardware.Camera;
@@ -31,9 +27,9 @@ public class ToolListActivity extends FragmentActivity {
 	private Camera cam;
 	private Camera.Parameters ekparam;
 
-	private Uri audioFileUri;
-
-	private static final Integer ACTION_AUDIO = 0;
+	private static final int ACTION_AUDIO = 0;
+	private static final int ACTION_VIDEO = 1;
+	private static final int ACTION_PICTURE = 2;
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
 	 * fragments for each of the sections. We use a
@@ -93,13 +89,9 @@ public class ToolListActivity extends FragmentActivity {
 		case R.id.action_on:
 			// ekparam.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
 			// cam.setParameters(ekparam);
-			Intent intent = new Intent(
-					MediaStore.Audio.Media.RECORD_SOUND_ACTION);
-			intent.putExtra(
-					MediaStore.EXTRA_OUTPUT,
-					Environment
-							.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC));
-			startActivityForResult(intent, ACTION_AUDIO);
+			// recordAudio();
+			 recordVideo(null);
+//			takePhoto(null);
 			return true;
 		case R.id.action_off:
 			ekparam.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
@@ -112,33 +104,104 @@ public class ToolListActivity extends FragmentActivity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (resultCode == RESULT_OK && requestCode == ACTION_AUDIO) {
-			audioFileUri = data.getData();
-			
-			//Obtener la ruta real
-			String[] proj = { MediaStore.Audio.Media.DATA };
-			Cursor cursor = getContentResolver().query(audioFileUri, proj,
-					null, null, null);
-			int column_index = cursor
-					.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
-			cursor.moveToFirst();
+		if (resultCode == RESULT_OK) {
+			String path = null;
+			String directory = Environment.getExternalStorageDirectory()
+					.getAbsolutePath();
 
-			//Mover el ficehro
-			try {
-
-				File afile = new File(cursor.getString(column_index));
-
-				if (afile.renameTo(new File(Environment
-						.getExternalStorageDirectory().getAbsolutePath()
-						+ "/ARIANE/Grabaciones/" + afile.getName()))) {
-					System.out.println("File is moved successful!");
-				} else {
-					System.out.println("File is failed to move!");
-				}
-
-			} catch (Exception e) {
-				e.printStackTrace();
+			switch (requestCode) {
+			case ACTION_AUDIO:
+				path = getRealPath(data.getData(), MediaStore.Audio.Media.DATA);
+				directory += "/ARIANE/Grabaciones/";
+				break;
+//			case ACTION_VIDEO:
+//				path = getRealPath(data.getData(), MediaStore.Video.Media.DATA);
+//				directory += "/ARIANE/Videos/";
+//				break;
+//			case ACTION_PICTURE:
+//				path = getRealPath(data.getData(), MediaStore.Images.Media.DATA);
+//				directory += "/ARIANE/Imagenes/";
+//				break;
+			default:
+				break;
 			}
+
+			moveToArianeDir(path, directory);
+
+			// // Obtener la ruta real
+			// String[] proj = { MediaStore.Audio.Media.DATA };
+			// Cursor cursor = getContentResolver().query(audioFileUri, proj,
+			// null, null, null);
+			// int column_index = cursor
+			// .getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
+			// cursor.moveToFirst();
+			//
+			// // Mover el ficehro
+			// try {
+			//
+			// File afile = new File(cursor.getString(column_index));
+			//
+			// if (afile.renameTo(new File(Environment
+			// .getExternalStorageDirectory().getAbsolutePath()
+			// + "/ARIANE/Grabaciones/" + afile.getName()))) {
+			// System.out.println("File is moved successful!");
+			// } else {
+			// System.out.println("File is failed to move!");
+			// }
+			//
+			// } catch (Exception e) {
+			// e.printStackTrace();
+			// }
+		}
+	}
+
+	private void recordAudio() {
+		Intent intent = new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION);
+		startActivityForResult(intent, ACTION_AUDIO);
+	}
+
+	public void recordVideo(View v) {
+		Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+		String nombre = "video";
+		File f = new File(Environment.getExternalStorageDirectory()+ "/ARIANE/Videos/", nombre
+				+ ".mp4");
+		takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+		startActivityForResult(takeVideoIntent, 1);
+	}
+
+	public void takePhoto(View v) {
+		Intent i = new Intent("android.media.action.IMAGE_CAPTURE");
+		String nombre = "foto";
+		File f = new File(Environment.getExternalStorageDirectory()+ "/ARIANE/Imagenes/", nombre
+				+ ".jpg");
+		i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+		startActivityForResult(i, 2);
+
+	}
+
+	// MediaStore.Audio.Media.DATA
+	private String getRealPath(Uri contentUri, String source) {
+
+		Cursor cursor = getContentResolver().query(contentUri,
+				new String[] { source }, null, null, null);
+		int column_index = cursor
+				.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
+		cursor.moveToFirst();
+		return cursor.getString(column_index);
+	}
+
+	private boolean moveToArianeDir(String from, String to) {
+		try {
+			File f = new File(to);
+			f.mkdirs();
+			// Create a file with the passed path
+			File afile = new File(from);
+
+			return afile.renameTo(new File(to + afile.getName()));
+
+		} catch (Exception e) {
+
+			return false;
 		}
 	}
 
