@@ -24,12 +24,22 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class ToolListActivity extends FragmentActivity {
+
 	private Camera cam;
 	private Camera.Parameters ekparam;
 
 	private static final int ACTION_AUDIO = 0;
-	private static final int ACTION_VIDEO = 1;
-	private static final int ACTION_PICTURE = 2;
+
+	private static final String ROOT_PATH = Environment
+			.getExternalStorageDirectory().getAbsolutePath();
+
+	private static final String AUDIO_DIRECTORY = "/ARIANE/Grabaciones/";
+	private static final String VIDEO_DIRECTORY = "/ARIANE/Videos/";
+	private static final String PICTURE_DIRECTORY = "/ARIANE/Imagenes/";
+
+	private static final String VIDEO_EXT = ".mp4";
+	private static final String PICTURE_EXT = ".jpg";
+
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
 	 * fragments for each of the sections. We use a
@@ -65,6 +75,19 @@ public class ToolListActivity extends FragmentActivity {
 	}
 
 	@Override
+	protected void onPause() {
+		super.onPause();
+		releaseCamera(); // release the camera immediately on pause event
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		cam = Camera.open();
+
+	}
+
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.tool_list, menu);
@@ -86,17 +109,6 @@ public class ToolListActivity extends FragmentActivity {
 			//
 			NavUtils.navigateUpFromSameTask(this);
 			return true;
-		case R.id.action_on:
-			// ekparam.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-			// cam.setParameters(ekparam);
-			// recordAudio();
-			 recordVideo(null);
-//			takePhoto(null);
-			return true;
-		case R.id.action_off:
-			ekparam.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-			cam.setParameters(ekparam);
-			return true;
 
 		}
 		return super.onOptionsItemSelected(item);
@@ -104,120 +116,118 @@ public class ToolListActivity extends FragmentActivity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (resultCode == RESULT_OK) {
-			String path = null;
-			String directory = Environment.getExternalStorageDirectory()
-					.getAbsolutePath();
 
-			switch (requestCode) {
-			case ACTION_AUDIO:
-				path = getRealPath(data.getData(), MediaStore.Audio.Media.DATA);
-				directory += "/ARIANE/Grabaciones/";
-				break;
-//			case ACTION_VIDEO:
-//				path = getRealPath(data.getData(), MediaStore.Video.Media.DATA);
-//				directory += "/ARIANE/Videos/";
-//				break;
-//			case ACTION_PICTURE:
-//				path = getRealPath(data.getData(), MediaStore.Images.Media.DATA);
-//				directory += "/ARIANE/Imagenes/";
-//				break;
-			default:
-				break;
+		if (resultCode == RESULT_OK && requestCode == ACTION_AUDIO) {
+
+			if (data.getData() != null) {
+
+				String from = getRealPath(data.getData());
+				String to = ROOT_PATH + AUDIO_DIRECTORY;
+				moveToArianeDir(from, to);
 			}
-
-			moveToArianeDir(path, directory);
-
-			// // Obtener la ruta real
-			// String[] proj = { MediaStore.Audio.Media.DATA };
-			// Cursor cursor = getContentResolver().query(audioFileUri, proj,
-			// null, null, null);
-			// int column_index = cursor
-			// .getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
-			// cursor.moveToFirst();
-			//
-			// // Mover el ficehro
-			// try {
-			//
-			// File afile = new File(cursor.getString(column_index));
-			//
-			// if (afile.renameTo(new File(Environment
-			// .getExternalStorageDirectory().getAbsolutePath()
-			// + "/ARIANE/Grabaciones/" + afile.getName()))) {
-			// System.out.println("File is moved successful!");
-			// } else {
-			// System.out.println("File is failed to move!");
-			// }
-			//
-			// } catch (Exception e) {
-			// e.printStackTrace();
-			// }
 		}
 	}
 
+	/**
+	 * 
+	 */
+	private void turnOnLantern() {
+		ekparam.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+		cam.setParameters(ekparam);
+	}
+
+	/**
+	 * 
+	 */
+	private void turnOffLantern() {
+		ekparam.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+		cam.setParameters(ekparam);
+	}
+
+	/**
+	 * 
+	 * @param name
+	 */
 	private void recordAudio() {
 		Intent intent = new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION);
 		startActivityForResult(intent, ACTION_AUDIO);
 	}
 
-	public void recordVideo(View v) {
+	/**
+	 * 
+	 * @param name
+	 */
+	private void recordVideo(String name) {
+
+		createDirectory(ROOT_PATH + VIDEO_DIRECTORY);
+		File f = new File(ROOT_PATH + VIDEO_DIRECTORY, name + VIDEO_EXT);
+
 		Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-		String nombre = "video";
-		File f = new File(Environment.getExternalStorageDirectory()+ "/ARIANE/Videos/", nombre
-				+ ".mp4");
 		takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
 		startActivityForResult(takeVideoIntent, 1);
 	}
 
-	public void takePhoto(View v) {
+	/**
+	 * 
+	 * @param name
+	 */
+	private void takePicture(String name) {
+
+		createDirectory(ROOT_PATH + PICTURE_DIRECTORY);
+		File f = new File(ROOT_PATH + PICTURE_DIRECTORY, name + PICTURE_EXT);
+
 		Intent i = new Intent("android.media.action.IMAGE_CAPTURE");
-		String nombre = "foto";
-		File f = new File(Environment.getExternalStorageDirectory()+ "/ARIANE/Imagenes/", nombre
-				+ ".jpg");
 		i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
 		startActivityForResult(i, 2);
-
 	}
 
-	// MediaStore.Audio.Media.DATA
-	private String getRealPath(Uri contentUri, String source) {
+	/**
+	 * 
+	 * @param contentUri
+	 * @return
+	 */
+	private String getRealPath(Uri contentUri) {
 
 		Cursor cursor = getContentResolver().query(contentUri,
-				new String[] { source }, null, null, null);
+				new String[] { MediaStore.Audio.Media.DATA }, null, null, null);
 		int column_index = cursor
 				.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
 		cursor.moveToFirst();
 		return cursor.getString(column_index);
 	}
 
-	private boolean moveToArianeDir(String from, String to) {
+	/**
+	 * 
+	 * @param path
+	 * @param to
+	 * @return
+	 */
+	private boolean moveToArianeDir(String path, String to) {
 		try {
-			File f = new File(to);
-			f.mkdirs();
-			// Create a file with the passed path
-			File afile = new File(from);
-
-			return afile.renameTo(new File(to + afile.getName()));
+			// create directory
+			createDirectory(to);
+			// get file to move
+			File from = new File(path);
+			// move file
+			return from.renameTo(new File(to + from.getName()));
 
 		} catch (Exception e) {
-
 			return false;
 		}
 	}
 
-	@Override
-	protected void onPause() {
-		super.onPause();
-		releaseCamera(); // release the camera immediately on pause event
+	/**
+	 * 
+	 * @param path
+	 */
+	private void createDirectory(String path) {
+		File f = new File(path);
+		f.mkdirs();
 	}
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		cam = Camera.open();
-
-	}
-
+	/**
+	 * 
+	 */
 	private void releaseCamera() {
 		if (cam != null) {
 			cam.release(); // release the camera for other applications
