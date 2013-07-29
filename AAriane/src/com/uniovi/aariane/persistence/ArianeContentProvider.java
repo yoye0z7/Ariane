@@ -231,6 +231,7 @@ public class ArianeContentProvider extends ContentProvider {
 					+ uri.getLastPathSegment());
 			break;
 		// If the query is for a picture URL
+		// TODO Extract missions of an adventure
 		case MISSIONS_QUERY:
 			// Set the table
 			queryBuilder.setTables(MissionTable.TABLE);

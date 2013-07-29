@@ -45,20 +45,13 @@ public class MissionActivity extends SherlockFragmentActivity implements
 		final ActionBar actionBar = getActionBar();
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-		String[] from = new String[] { MissionTable.COL_NAM,
-				MissionTable.COL_DES };
 
-		int[] to = new int[] { android.R.id.text1, android.R.id.text2 };
-
-		getSupportLoaderManager().initLoader(0, null, this);
-
-		adapter = new SimpleCursorAdapter(this, R.layout.list_item_activated,
-				null, from, to, 0);
+		createAdapter();
 		// Set up the dropdown list navigation in the action bar.
 		actionBar.setListNavigationCallbacks(
 		// Specify a SpinnerAdapter to populate the dropdown list.
-
 				adapter, this);
+
 		setUpMapIfNeeded();
 	}
 
@@ -66,6 +59,19 @@ public class MissionActivity extends SherlockFragmentActivity implements
 	protected void onResume() {
 		super.onResume();
 		setUpMapIfNeeded();
+	}
+
+	private void createAdapter() {
+
+		String[] from = new String[] { MissionTable.COL_NAM,
+				MissionTable.COL_DES };
+		int[] to = new int[] { android.R.id.text1, android.R.id.text2 };
+
+		getSupportLoaderManager().initLoader(0, null, this);
+
+		adapter = new SimpleCursorAdapter(this, R.layout.list_item_activated,
+				null, from, to, 0);
+
 	}
 
 	private void setUpMapIfNeeded() {
@@ -162,40 +168,46 @@ public class MissionActivity extends SherlockFragmentActivity implements
 
 	@Override
 	public boolean onNavigationItemSelected(int position, long id) {
-		// When the given dropdown item is selected, show its contents in the
-		adapter.getItem(position);
+		double lat, lng;
+		
 		Cursor data = (Cursor) adapter.getItem(position);
-		double lat = data.getDouble(data
-				.getColumnIndexOrThrow(MissionTable.COL_LAT));
-		double lng = data.getDouble(data
-				.getColumnIndexOrThrow(MissionTable.COL_LNG));
+		lat = data.getDouble(data.getColumnIndexOrThrow(MissionTable.COL_LAT));
+		lng = data.getDouble(data.getColumnIndexOrThrow(MissionTable.COL_LNG));
 
 		map.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(lat, lng)));
+		
 		return true;
 	}
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+
 		String[] projection = { MissionTable.COL_ID, MissionTable.COL_NAM,
 				MissionTable.COL_DES, MissionTable.COL_LAT,
 				MissionTable.COL_LNG };
+
 		CursorLoader cursorLoader = new CursorLoader(this,
 				DataProviderContract.MISSIONS_CONTENTURI, projection, null,
 				null, null);
+
 		return cursorLoader;
 	}
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 		adapter.swapCursor(data);
+
+		double lat, lng;
 		if (data.moveToFirst())
 			do {
-				double a = data.getDouble(data
+				lat = data.getDouble(data
 						.getColumnIndexOrThrow(MissionTable.COL_LAT));
-				double b = data.getDouble(data
+				lng = data.getDouble(data
 						.getColumnIndexOrThrow(MissionTable.COL_LNG));
 
-				map.addMarker(new MarkerOptions().position(new LatLng(a, b)));
+				map.addMarker(new MarkerOptions()
+						.position(new LatLng(lat, lng)));
+
 			} while (data.moveToNext());
 	}
 

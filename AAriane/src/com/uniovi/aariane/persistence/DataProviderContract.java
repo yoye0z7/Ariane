@@ -16,19 +16,12 @@ public final class DataProviderContract implements BaseColumns {
 	 */
 	public static final Uri CONTENT_URI = Uri.parse(SCHEME + "://" + AUTHORITY);
 
-	/**
-	 * The DataProvider content base path for one ADVENTURE_ID
-	 */
-	public static final String ADVENTURE_ID_PATH = "adventure";
+
 	/**
 	 * The DataProvider base path for ADVENTURE_IDs
 	 */
 	public static final String ADVENTURES_PATH = "adventures";
 	
-	/**
-	 * The DataProvider content base path for one ADVENTURE_ID
-	 */
-	public static final String MISSION_ID_PATH = "mission";
 	/**
 	 * The DataProvider base path for ADVENTURE_IDs
 	 */
