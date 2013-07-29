@@ -1,4 +1,4 @@
-package com.uniovi.aariane;
+package com.uniovi.aariane.mision;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.uniovi.aariane.R;
+import com.uniovi.aariane.R.layout;
 
 
 /**

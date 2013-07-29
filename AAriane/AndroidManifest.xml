@@ -39,29 +39,29 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="AdventureListActivity"
+            android:name="com.uniovi.aariane.AdventureListActivity"
             android:parentActivityName="com.uniovi.aariane.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.uniovi.aariane.MainActivity" />
         </activity>
         <activity
-            android:name="AdventureDetailActivity"
+            android:name="com.uniovi.aariane.AdventureDetailActivity"
             android:parentActivityName="com.uniovi.aariane.AdventureListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.uniovi.aariane.AdventureListActivity" />
         </activity>
         <activity
-            android:name="MissionListActivity"
+            android:name="com.uniovi.aariane.mision.MissionListActivity"
             android:parentActivityName="com.uniovi.aariane.AdventureListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.uniovi.aariane.AdventureListActivity" />
         </activity>
         <activity
-            android:name="MissionDetailActivity"
-            android:parentActivityName="com.uniovi.aariane.MissionListActivity" >
+            android:name="com.uniovi.aariane.mision.MissionDetailActivity"
+            android:parentActivityName=".uniovi.aariane.mision.MissionListActivityctivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.uniovi.aariane.MissionListActivity" />
@@ -75,11 +75,16 @@
         </activity>
 
         <provider
-            android:name=".persistence.ArianeContentProvider"
+            android:name="com.uniovi.aariane.persistence.ArianeContentProvider"
             android:authorities="es.uniovi.android.ariane.contentprovider"
             android:enabled="true"
             android:exported="false" >
         </provider>
+
+        <activity
+            android:name=".MissionActivity"
+            android:label="@string/title_activity_mision" >
+        </activity>
     </application>
 
 </manifest>

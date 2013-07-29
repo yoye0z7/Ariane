@@ -73,7 +73,7 @@ public class AdventureDetailActivity extends FragmentActivity implements
 
 	@Override
 	public void onClick(View v) {
-		Intent mapIntent = new Intent(this, MissionListActivity.class);
+		Intent mapIntent = new Intent(this, MissionActivity.class);
 		startActivity(mapIntent);
 	}
 }

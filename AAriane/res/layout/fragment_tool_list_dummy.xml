@@ -19,9 +19,9 @@
         android:id="@+id/iv_tool_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/section_label"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/tool_lantern" />
+        android:src="@drawable/lantern" />
 
     <Button
         android:id="@+id/bt_tool"

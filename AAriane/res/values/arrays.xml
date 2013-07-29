@@ -2,7 +2,7 @@
 <resources>
 
     <string-array name="tools">
-        <item>Draw Kit</item>
+        <item>Draw</item>
         <item>Lantern</item>
         <item>Audio</item>
         <item>Camera</item>

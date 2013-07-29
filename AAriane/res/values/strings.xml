@@ -31,4 +31,6 @@
     <string name="title_section3">Camera</string>
     <string name="action_on"></string>
     <string name="action_off">Off</string>
+    <string name="title_activity_mision">Misions</string>
+
 </resources>

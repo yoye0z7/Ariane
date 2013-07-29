@@ -1,4 +1,4 @@
-package com.uniovi.aariane;
+package com.uniovi.aariane.mision;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,9 @@ import android.support.v4.app.NavUtils;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
+import com.uniovi.aariane.R;
+import com.uniovi.aariane.R.id;
+import com.uniovi.aariane.R.layout;
 
 
 /**

@@ -79,12 +79,12 @@ public class AdventureListFragment extends SherlockListFragment implements
 		super.onCreate(savedInstanceState);
 		String[] from = new String[] { AdventureTable.COL_NAM };
 
-		int[] to = new int[] { R.id.tv_item};
+		int[] to = new int[] { android.R.id.text1};
 
 		getLoaderManager().initLoader(0, null, this);
 		adapter = new SimpleCursorAdapter(this.getActivity()
 				.getApplicationContext(),
-				R.layout.activity_adeventure_list_item, null, from, to,
+				R.layout.list_item, null, from, to,
 				0);
 
 		setListAdapter(adapter);

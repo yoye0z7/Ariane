@@ -6,7 +6,6 @@ import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.hardware.Camera;
 import android.net.Uri;
@@ -25,13 +24,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ToolListActivity extends FragmentActivity {
 
 	private Camera cam;
 	private Camera.Parameters ekparam;
+
+	private static String tools[];
 
 	private static final int ACTION_AUDIO = 0;
 
@@ -53,12 +54,12 @@ public class ToolListActivity extends FragmentActivity {
 	 * intensive, it may be best to switch to a
 	 * {@link android.support.v4.app.FragmentStatePagerAdapter}.
 	 */
-	SectionsPagerAdapter mSectionsPagerAdapter;
+	private SectionsPagerAdapter mSectionsPagerAdapter;
 
 	/**
 	 * The {@link ViewPager} that will host the section contents.
 	 */
-	ViewPager mViewPager;
+	private ViewPager mViewPager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +73,9 @@ public class ToolListActivity extends FragmentActivity {
 		// primary sections of the app.
 		mSectionsPagerAdapter = new SectionsPagerAdapter(
 				getSupportFragmentManager());
+
+		// Load tools
+		tools = getResources().getStringArray(R.array.tools);
 
 		// Set up the ViewPager with the sections adapter.
 		mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -102,16 +106,8 @@ public class ToolListActivity extends FragmentActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
-		ekparam = cam.getParameters();
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			// This ID represents the Home or Up button. In the case of this
-			// activity, the Up button is shown. Use NavUtils to allow users
-			// to navigate up one level in the application structure. For
-			// more details, see the Navigation pattern on Android Design:
-			//
-			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
-			//
 			NavUtils.navigateUpFromSameTask(this);
 			return true;
 
@@ -126,15 +122,16 @@ public class ToolListActivity extends FragmentActivity {
 
 			if (data.getData() != null) {
 
-				String from = getRealPath(data.getData());
-				String to = ROOT_PATH + AUDIO_DIRECTORY;
-				moveToArianeDir(from, to);
+				moveToArianeDir(getRealPath(data.getData()), ROOT_PATH
+						+ AUDIO_DIRECTORY);
 			}
 		}
 	}
 
 	/**
+	 * Lantern tool
 	 * 
+	 * @category tool
 	 */
 	public void turnOnLantern() {
 
@@ -149,8 +146,9 @@ public class ToolListActivity extends FragmentActivity {
 	}
 
 	/**
+	 * Audio recorder tool
 	 * 
-	 * @param name
+	 * @category tool
 	 */
 	public void recordAudio() {
 		Intent intent = new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION);
@@ -158,8 +156,9 @@ public class ToolListActivity extends FragmentActivity {
 	}
 
 	/**
+	 * Video recorder tool
 	 * 
-	 * @param name
+	 * @category tool
 	 */
 	public void recordVideo() {
 
@@ -172,8 +171,9 @@ public class ToolListActivity extends FragmentActivity {
 	}
 
 	/**
+	 * Camera picture
 	 * 
-	 * @param name
+	 * @category tool
 	 */
 	public void takePicture() {
 
@@ -186,21 +186,26 @@ public class ToolListActivity extends FragmentActivity {
 	}
 
 	/**
+	 * Get real path of a picture make by intent
 	 * 
 	 * @param contentUri
-	 * @return
+	 *            uri povided
+	 * @return Absolute path to image resource
 	 */
 	private String getRealPath(Uri contentUri) {
 
 		Cursor cursor = getContentResolver().query(contentUri,
 				new String[] { MediaStore.Audio.Media.DATA }, null, null, null);
+
 		int column_index = cursor
 				.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
+
 		cursor.moveToFirst();
 		return cursor.getString(column_index);
 	}
 
 	/**
+	 * Move resource file from public directories to Ariane directory
 	 * 
 	 * @param path
 	 * @param to
@@ -208,6 +213,7 @@ public class ToolListActivity extends FragmentActivity {
 	 */
 	private boolean moveToArianeDir(String path, String to) {
 		try {
+
 			// create directory
 			createDirectory(to);
 			// get file to move
@@ -221,8 +227,10 @@ public class ToolListActivity extends FragmentActivity {
 	}
 
 	/**
+	 * Create a new directroy
 	 * 
 	 * @param path
+	 *            directory/ies to create
 	 */
 	private void createDirectory(String path) {
 		File f = new File(path);
@@ -230,11 +238,11 @@ public class ToolListActivity extends FragmentActivity {
 	}
 
 	/**
-	 * 
+	 * Release the camera for other applications
 	 */
 	private void releaseCamera() {
 		if (cam != null) {
-			cam.release(); // release the camera for other applications
+			cam.release();
 			cam = null;
 		}
 	}
@@ -245,16 +253,13 @@ public class ToolListActivity extends FragmentActivity {
 	 */
 	public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-		String tools[];
-
 		public SectionsPagerAdapter(FragmentManager fm) {
 			super(fm);
-			tools = getResources().getStringArray(R.array.tools);
 		}
 
 		@Override
 		public Fragment getItem(int position) {
-			return SectionFragment.newInstance(position);
+			return ToolFragment.newInstance(position);
 		}
 
 		@Override
@@ -273,86 +278,99 @@ public class ToolListActivity extends FragmentActivity {
 	 * A dummy fragment representing a section of the app, but that simply
 	 * displays dummy text.
 	 */
-	public static class SectionFragment extends Fragment {
+	public static class ToolFragment extends Fragment implements
+			OnClickListener {
 		/**
 		 * The fragment argument representing the section number for this
 		 * fragment.
 		 */
-		private static final String ARG_SECTION_NUMBER = "section_number";
+		private static final String ARG_TOOL_NUMBER = "tool_number";
+		private static final String RES_DRAWABLE_TYPE = "drawable";
 
-		private String tools[];
 		private String methods[];
 		private String descriptions[];
 
-		public static SectionFragment newInstance(int index) {
-			SectionFragment f = new SectionFragment();
+		private int tool;
+
+		@Override
+		public void onCreate(Bundle savedInstanceState) {
+			super.onCreate(savedInstanceState);
+
+			if (getArguments().containsKey(ARG_TOOL_NUMBER)) {
+				tool = getArguments().getInt(ARG_TOOL_NUMBER);
+			}
+		}
+
+		public static ToolFragment newInstance(int tool) {
+			ToolFragment f = new ToolFragment();
 
 			// Supply index input as an argument.
 			Bundle args = new Bundle();
-			args.putInt(ARG_SECTION_NUMBER, index);
+			args.putInt(ARG_TOOL_NUMBER, tool);
 			f.setArguments(args);
 
 			return f;
 		}
 
-		public SectionFragment() {
+		private ToolFragment() {
 
 		}
 
 		@Override
 		public void onAttach(Activity activity) {
 			super.onAttach(activity);
-			Resources res = getResources();
-			tools = res.getStringArray(R.array.tools);
-			methods = res.getStringArray(R.array.methods);
-			descriptions = res.getStringArray(R.array.descriptions);
+
+			methods = getResources().getStringArray(R.array.methods);
+			descriptions = getResources().getStringArray(R.array.descriptions);
 		}
 
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
+
+			int resourceId = getResources().getIdentifier(
+					tools[tool].toLowerCase(), RES_DRAWABLE_TYPE,
+					this.getActivity().getPackageName());
+
 			View rootView = inflater.inflate(R.layout.fragment_tool_list_dummy,
 					container, false);
 
-			((TextView) rootView.findViewById(R.id.section_label))
-					.setText(tools[getArguments().getInt(ARG_SECTION_NUMBER)]);
-			
 			((TextView) rootView.findViewById(R.id.tv_tool_description))
-			.setText(descriptions[getArguments().getInt(ARG_SECTION_NUMBER)]);
+					.setText(descriptions[tool]);
 
-//			ImageView image = (ImageView) rootView
-//					.findViewById(R.id.iv_tool_image);
-			Button bt_tool = (Button) rootView.findViewById(R.id.bt_tool);
-			bt_tool.setOnClickListener(new OnClickListener() {
+			if (resourceId != 0) {
+				((ImageView) rootView.findViewById(R.id.iv_tool_image))
+						.setImageResource(resourceId);
+			}
 
-				@Override
-				public void onClick(View v) {
-					java.lang.reflect.Method method;
-					try {
-						method = getActivity().getClass().getMethod(
-								methods[getArguments().getInt(
-										ARG_SECTION_NUMBER)]);
-
-						method.invoke(getActivity());
-					} catch (SecurityException e) {
-						// ...
-					} catch (NoSuchMethodException e) {
-						// ...
-					} catch (IllegalArgumentException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IllegalAccessException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (InvocationTargetException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-
-			});
+			rootView.findViewById(R.id.bt_tool).setOnClickListener(this);
 
 			return rootView;
+		}
+
+		@Override
+		public void onClick(View v) {
+			java.lang.reflect.Method method;
+			try {
+				method = getActivity().getClass().getMethod(methods[tool]);
+
+				method.invoke(getActivity());
+			} catch (SecurityException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoSuchMethodException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
