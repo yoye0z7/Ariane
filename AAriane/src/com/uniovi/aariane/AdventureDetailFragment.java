@@ -1,6 +1,5 @@
 package com.uniovi.aariane;
 
-
 import android.app.Activity;
 import android.database.Cursor;
 import android.net.Uri;
@@ -38,7 +37,7 @@ public class AdventureDetailFragment extends Fragment implements
 		/**
 		 * Callback for when an item has been selected.
 		 */
-		public void onClick(View v);
+		public void onClick(String id);
 	}
 
 	/**
@@ -47,7 +46,7 @@ public class AdventureDetailFragment extends Fragment implements
 	 */
 	private static Callbacks sDummyCallbacks = new Callbacks() {
 		@Override
-		public void onClick(View v) {
+		public void onClick(String id) {
 		}
 	};
 	/**
@@ -103,7 +102,8 @@ public class AdventureDetailFragment extends Fragment implements
 
 		// Show the dummy content as text in a TextView.
 		if (mItem != null) {
-			String[] projection = { AdventureTable.COL_NAM };
+			String[] projection = { AdventureTable.COL_NAM,
+					AdventureTable.COL_DES };
 
 			Cursor cursor = getActivity().getContentResolver().query(mItem,
 					projection, null, null, null);
@@ -112,9 +112,14 @@ public class AdventureDetailFragment extends Fragment implements
 
 				cursor.moveToFirst();
 
-				((TextView) rootView.findViewById(R.id.adventure_detail))
+				((TextView) rootView.findViewById(R.id.tv_adventure))
 						.setText(cursor.getString(cursor
 								.getColumnIndexOrThrow(projection[0])));
+
+				((TextView) rootView.findViewById(R.id.tv_description))
+						.setText(cursor.getString(cursor
+								.getColumnIndexOrThrow(projection[1])));
+
 			}
 
 		}
@@ -126,7 +131,7 @@ public class AdventureDetailFragment extends Fragment implements
 
 	@Override
 	public void onClick(View v) {
-		mCallbacks.onClick(v);
+		mCallbacks.onClick(getArguments().getString(ARG_ITEM_ID));
 	}
 
 }

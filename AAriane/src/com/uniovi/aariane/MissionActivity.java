@@ -21,7 +21,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.uniovi.aariane.persistence.AdventureTable;
 import com.uniovi.aariane.persistence.DataProviderContract;
 import com.uniovi.aariane.persistence.MissionTable;
 
@@ -35,6 +34,10 @@ public class MissionActivity extends SherlockFragmentActivity implements
 	 * current dropdown position.
 	 */
 	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
+	/**
+	 * The fragment argument representing the adventure id for this fragment.
+	 */
+	static final String ARG_ADV_ID = "adventure_id";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -153,14 +156,14 @@ public class MissionActivity extends SherlockFragmentActivity implements
 	private void saveState() {
 
 		ContentValues values = new ContentValues();
-		values.put(AdventureTable.COL_NAM, "mision");
-		values.put(AdventureTable.COL_CAT, "categoria");
-		values.put(AdventureTable.COL_BEGD, "BEGD");
-		values.put(AdventureTable.COL_ENDD, "ENDD");
-		values.put(AdventureTable.COL_DES, "Descripcion");
-		values.put(AdventureTable.COL_LAT, "0.0");
-		values.put(AdventureTable.COL_LNG, "0.0");
-
+		values.put(MissionTable.COL_NAM, "mision");
+		values.put(MissionTable.COL_CAT, "categoria");
+		values.put(MissionTable.COL_BEGD, "BEGD");
+		values.put(MissionTable.COL_ENDD, "ENDD");
+		values.put(MissionTable.COL_DES, "Descripcion");
+		values.put(MissionTable.COL_LAT, "0.0");
+		values.put(MissionTable.COL_LNG, "0.0");
+		values.put(MissionTable.COL_AID, 1);
 		getContentResolver().insert(DataProviderContract.MISSIONS_CONTENTURI,
 				values);
 
@@ -169,13 +172,13 @@ public class MissionActivity extends SherlockFragmentActivity implements
 	@Override
 	public boolean onNavigationItemSelected(int position, long id) {
 		double lat, lng;
-		
+
 		Cursor data = (Cursor) adapter.getItem(position);
 		lat = data.getDouble(data.getColumnIndexOrThrow(MissionTable.COL_LAT));
 		lng = data.getDouble(data.getColumnIndexOrThrow(MissionTable.COL_LNG));
 
 		map.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(lat, lng)));
-		
+
 		return true;
 	}
 
@@ -185,10 +188,17 @@ public class MissionActivity extends SherlockFragmentActivity implements
 		String[] projection = { MissionTable.COL_ID, MissionTable.COL_NAM,
 				MissionTable.COL_DES, MissionTable.COL_LAT,
 				MissionTable.COL_LNG };
+		
+		//Always One argument
+		String[] selectionArgs = new String[getIntent().getExtras().size()];
+
+		if (getIntent().getExtras().containsKey(ARG_ADV_ID)) {
+			selectionArgs[0] = getIntent().getExtras().getString(ARG_ADV_ID);
+		}
 
 		CursorLoader cursorLoader = new CursorLoader(this,
 				DataProviderContract.MISSIONS_CONTENTURI, projection, null,
-				null, null);
+				selectionArgs, null);
 
 		return cursorLoader;
 	}

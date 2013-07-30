@@ -231,10 +231,11 @@ public class ArianeContentProvider extends ContentProvider {
 					+ uri.getLastPathSegment());
 			break;
 		// If the query is for a picture URL
-		// TODO Extract missions of an adventure
 		case MISSIONS_QUERY:
 			// Set the table
 			queryBuilder.setTables(MissionTable.TABLE);
+			// Adding the ID to the original query
+			queryBuilder.appendWhere(MissionTable.COL_AID + "= ?");
 			break;
 		case MISSION_ID_QUERY:
 			// Set the table

@@ -53,9 +53,17 @@ public class MissionTable {
 		sb.append(COL_LAT);
 		sb.append(" double not null, ");
 		sb.append(COL_LNG);
-		sb.append(" double not null);");
-
-		// TODO Include foreign key
+		sb.append(" double not null, ");
+		sb.append(COL_AID);
+		sb.append(" integer not null, ");
+		sb.append("FOREIGN KEY ");
+		sb.append("(");
+		sb.append(COL_AID);
+		sb.append(")");
+		sb.append(" REFERENCES ");
+		sb.append(AdventureTable.TABLE);
+		sb.append("(_id)");
+		sb.append(");");
 		return sb.toString();
 
 	}

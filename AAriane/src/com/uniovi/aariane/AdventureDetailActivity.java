@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
-import android.view.View;
 
 /**
  * An activity representing a single Adventure detail screen. This activity is
@@ -70,8 +69,9 @@ public class AdventureDetailActivity extends FragmentActivity implements
 	}
 
 	@Override
-	public void onClick(View v) {
+	public void onClick(String id) {
 		Intent mapIntent = new Intent(this, MissionActivity.class);
+		mapIntent.putExtra(MissionActivity.ARG_ADV_ID, id);
 		startActivity(mapIntent);
 	}
 }

@@ -4,14 +4,12 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.view.View;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.uniovi.aariane.persistence.AdventureTable;
 import com.uniovi.aariane.persistence.DataProviderContract;
-
 
 /**
  * An activity representing a list of Adventures. This activity has different
@@ -139,9 +137,13 @@ public class AdventureListActivity extends SherlockFragmentActivity implements
 	}
 
 	@Override
-	public void onClick(View v) {
-		// TODO Auto-generated method stub
+	public void onClick(String id) {
+		Bundle b = new Bundle();
+		Intent mapIntent = new Intent(this, MissionActivity.class);
 
+		b.putString(MissionActivity.ARG_ADV_ID, id);
+		mapIntent.putExtras(b);
+
+		startActivity(mapIntent);
 	}
-
 }

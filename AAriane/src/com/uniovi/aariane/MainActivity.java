@@ -1,19 +1,26 @@
 package com.uniovi.aariane;
 
+import java.util.Locale;
+
 import android.app.Activity;
-import android.app.DialogFragment;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
-public class MainActivity extends Activity {
+import com.actionbarsherlock.app.SherlockDialogFragment;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+
+public class MainActivity extends SherlockFragmentActivity {
 
 	private static final String DIALOG_ABOUT = "description";
 
@@ -21,13 +28,14 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-//	    Logger LOG = LoggerFactory.getLogger(MainActivity.class);
-//	    LOG.info("hello world");
+		// Logger LOG = LoggerFactory.getLogger(MainActivity.class);
+		// LOG.info("hello world");
+
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.main, menu);
+		getSupportMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
 
@@ -59,9 +67,10 @@ public class MainActivity extends Activity {
 	}
 
 	private void showAboutDialog() {
-		FragmentTransaction ft = getFragmentManager().beginTransaction();
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
-		Fragment prev = getFragmentManager().findFragmentByTag(DIALOG_ABOUT);
+		Fragment prev = getSupportFragmentManager().findFragmentByTag(
+				DIALOG_ABOUT);
 
 		if (prev != null) {
 			ft.remove(prev);
@@ -69,14 +78,19 @@ public class MainActivity extends Activity {
 
 		ft.addToBackStack(null);
 
-		AboutDialog.newInstance().show(ft, DIALOG_ABOUT);
+		AboutDialog.newInstance().show(getSupportFragmentManager(),
+				DIALOG_ABOUT);
 	}
 
-	private static class AboutDialog extends DialogFragment implements
+	public static class AboutDialog extends SherlockDialogFragment implements
 			OnClickListener {
 
 		static AboutDialog newInstance() {
 			return new AboutDialog();
+		}
+
+		public AboutDialog() {
+
 		}
 
 		@Override
@@ -88,8 +102,12 @@ public class MainActivity extends Activity {
 
 			View v = inflater
 					.inflate(R.layout.fragment_about, container, false);
-
-			v.findViewById(R.id.bt_close).setOnClickListener(this);
+			SectionsPagerAdapter mSectionsPagerAdapter = ((MainActivity) getActivity()).new SectionsPagerAdapter(
+					getChildFragmentManager());
+			// Set up the ViewPager with the sections adapter.
+			ViewPager mViewPager = (ViewPager) v.findViewById(R.id.pager);
+			mViewPager.setAdapter(mSectionsPagerAdapter);
+			// v.findViewById(R.id.bt_close).setOnClickListener(this);
 
 			return v;
 		}
@@ -98,5 +116,86 @@ public class MainActivity extends Activity {
 		public void onClick(View v) {
 			dismiss();
 		}
+	}
+
+	/**
+	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
+	 * one of the sections/tabs/pages.
+	 */
+	public class SectionsPagerAdapter extends FragmentPagerAdapter {
+		private String developers[] = { "Developer", "Doctor", "Director",
+				"CoDirector", "Uniovi" };
+
+		public SectionsPagerAdapter(FragmentManager fm) {
+			super(fm);
+		}
+
+		@Override
+		public Fragment getItem(int position) {
+			return DeveloperFragment.newInstance(position);
+		}
+
+		@Override
+		public int getCount() {
+			return developers.length;
+		}
+
+		@Override
+		public CharSequence getPageTitle(int position) {
+			Locale l = Locale.getDefault();
+			return developers[position].toUpperCase(l);
+		}
+	}
+
+	/**
+	 * A dummy fragment representing a section of the app, but that simply
+	 * displays dummy text.
+	 */
+	public static class DeveloperFragment extends Fragment {
+		/**
+		 * The fragment argument representing the section number for this
+		 * fragment.
+		 */
+		private static final String ARG_TOOL_NUMBER = "tool_number";
+
+		@Override
+		public void onCreate(Bundle savedInstanceState) {
+			super.onCreate(savedInstanceState);
+
+			if (getArguments().containsKey(ARG_TOOL_NUMBER)) {
+
+			}
+		}
+
+		public static DeveloperFragment newInstance(int tool) {
+			DeveloperFragment f = new DeveloperFragment();
+
+			// Supply index input as an argument.
+			Bundle args = new Bundle();
+			args.putInt(ARG_TOOL_NUMBER, tool);
+			f.setArguments(args);
+
+			return f;
+		}
+
+		public DeveloperFragment() {
+
+		}
+
+		@Override
+		public void onAttach(Activity activity) {
+			super.onAttach(activity);
+		}
+
+		@Override
+		public View onCreateView(LayoutInflater inflater, ViewGroup container,
+				Bundle savedInstanceState) {
+
+			View rootView = inflater.inflate(R.layout.fragment_about_detail,
+					container, false);
+
+			return rootView;
+		}
+
 	}
 }

@@ -18,6 +18,15 @@ public class ArianeDatabaseHelper extends SQLiteOpenHelper {
 		MissionTable.onCreate(db);
 	}
 
+	/**
+	 * Activate foreign keys
+	 */
+	public void onOpen(SQLiteDatabase db) {
+		super.onOpen(db);
+		// Enable foreign key constraints
+		db.execSQL("PRAGMA foreign_keys=ON;");
+	}
+
 	@Override
 	public void onUpgrade(SQLiteDatabase database, int oldVersion,
 			int newVersion) {
