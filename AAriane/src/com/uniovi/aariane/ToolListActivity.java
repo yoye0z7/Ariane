@@ -312,7 +312,7 @@ public class ToolListActivity extends FragmentActivity {
 			return f;
 		}
 
-		private ToolFragment() {
+		public ToolFragment() {
 
 		}
 
