@@ -77,15 +77,14 @@ public class AdventureListFragment extends SherlockListFragment implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		String[] from = new String[] { AdventureTable.COL_NAM };
+		String[] from = new String[] { AdventureTable.COL_NAM,
+				AdventureTable.COL_ENDD };
 
-		int[] to = new int[] { android.R.id.text1};
+		int[] to = new int[] { android.R.id.text1, android.R.id.text2 };
 
 		getLoaderManager().initLoader(0, null, this);
 		adapter = new SimpleCursorAdapter(this.getActivity()
-				.getApplicationContext(),
-				R.layout.list_item, null, from, to,
-				0);
+				.getApplicationContext(), R.layout.list_item, null, from, to, 0);
 
 		setListAdapter(adapter);
 	}
@@ -166,7 +165,7 @@ public class AdventureListFragment extends SherlockListFragment implements
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-		String[] projection = { AdventureTable.COL_ID, AdventureTable.COL_NAM };
+		String[] projection = { AdventureTable.COL_ID, AdventureTable.COL_NAM, AdventureTable.COL_ENDD };
 		CursorLoader cursorLoader = new CursorLoader(this.getActivity()
 				.getApplicationContext(),
 				DataProviderContract.ADVENTURES_CONTENTURI, projection, null,

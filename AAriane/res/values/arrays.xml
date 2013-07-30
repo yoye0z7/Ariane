@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- @Reflection -->
     <string-array name="tools">
         <item>Draw</item>
         <item>Lantern</item>
@@ -25,4 +26,23 @@
         <item>Make a recording of your surroundings and use it to pass the various tests</item>
         <item>Questionnaire</item>
     </string-array>
+
+    <!-- @About -->
+    <string-array name="jobs">
+        <item>Developer</item>
+        <item>Doctor</item>
+        <item>Director</item>
+        <item>Co-Director</item>
+        <item>Consultor</item>
+        <item>Univoi</item>
+    </string-array>
+    <string-array name="participantes">
+        <item>Jose antonio Hernández García</item>
+        <item>alejo Miguel Hernández García</item>
+        <item>Victor Álvarez</item>
+        <item>Juan Ramón Pérez Pérez</item>
+        <item>M. del Puerto Paule Ruiz</item>
+        <item>Universidad de Oviedo</item>
+    </string-array>
+
 </resources>

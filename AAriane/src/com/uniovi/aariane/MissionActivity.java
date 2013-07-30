@@ -18,11 +18,13 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Marker;
 import com.uniovi.aariane.persistence.DataProviderContract;
 import com.uniovi.aariane.persistence.MissionTable;
+import com.uniovi.aariane.util.MapConfiguration;
 
 public class MissionActivity extends SherlockFragmentActivity implements
 		LoaderManager.LoaderCallbacks<Cursor>, ActionBar.OnNavigationListener {
@@ -85,7 +87,18 @@ public class MissionActivity extends SherlockFragmentActivity implements
 					.findFragmentById(R.id.map)).getMap();
 			// Check if we were successful in obtaining the map.
 			if (map != null) {
+				
+				map.setMyLocationEnabled(true);
+				
 				// The Map is verified. It is now safe to manipulate the map.
+				map.setOnMarkerClickListener(new OnMarkerClickListener() {
+
+					@Override
+					public boolean onMarkerClick(Marker marker) {
+						// TODO Auto-generated method stub
+						return false;
+					}
+				});
 			}
 		}
 	}
@@ -188,8 +201,8 @@ public class MissionActivity extends SherlockFragmentActivity implements
 		String[] projection = { MissionTable.COL_ID, MissionTable.COL_NAM,
 				MissionTable.COL_DES, MissionTable.COL_LAT,
 				MissionTable.COL_LNG };
-		
-		//Always One argument
+
+		// Always One argument
 		String[] selectionArgs = new String[getIntent().getExtras().size()];
 
 		if (getIntent().getExtras().containsKey(ARG_ADV_ID)) {
@@ -207,18 +220,8 @@ public class MissionActivity extends SherlockFragmentActivity implements
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 		adapter.swapCursor(data);
 
-		double lat, lng;
-		if (data.moveToFirst())
-			do {
-				lat = data.getDouble(data
-						.getColumnIndexOrThrow(MissionTable.COL_LAT));
-				lng = data.getDouble(data
-						.getColumnIndexOrThrow(MissionTable.COL_LNG));
-
-				map.addMarker(new MarkerOptions()
-						.position(new LatLng(lat, lng)));
-
-			} while (data.moveToNext());
+		// add markers to map
+		MapConfiguration.addMarkers(data, map);
 	}
 
 	@Override

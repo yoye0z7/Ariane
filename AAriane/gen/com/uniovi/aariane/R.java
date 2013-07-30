@@ -10,11 +10,17 @@ package com.uniovi.aariane;
 public final class R {
     public static final class array {
         public static final int descriptions=0x7f0b0002;
+        /**  @About 
+         */
+        public static final int jobs=0x7f0b0003;
         public static final int methods=0x7f0b0001;
-        public static final int pref_example_list_titles=0x7f0b0003;
-        public static final int pref_example_list_values=0x7f0b0004;
-        public static final int pref_sync_frequency_titles=0x7f0b0005;
-        public static final int pref_sync_frequency_values=0x7f0b0006;
+        public static final int participantes=0x7f0b0004;
+        public static final int pref_example_list_titles=0x7f0b0005;
+        public static final int pref_example_list_values=0x7f0b0006;
+        public static final int pref_sync_frequency_titles=0x7f0b0007;
+        public static final int pref_sync_frequency_values=0x7f0b0008;
+        /**  @Reflection 
+         */
         public static final int tools=0x7f0b0000;
     }
     public static final class attr {
@@ -1130,22 +1136,21 @@ containing a value of this type.
         public static final int abs__textButton=0x7f050017;
         public static final int abs__title=0x7f05001f;
         public static final int abs__up=0x7f05000f;
-        public static final int action_about=0x7f05004b;
-        public static final int action_create=0x7f05004a;
-        public static final int action_settings=0x7f05004c;
+        public static final int action_about=0x7f05004a;
+        public static final int action_create=0x7f050049;
+        public static final int action_settings=0x7f05004b;
         public static final int adventure_detail_container=0x7f050036;
         public static final int adventure_list=0x7f050037;
         public static final int bt_adventure=0x7f050039;
         public static final int bt_result=0x7f050038;
-        public static final int bt_start=0x7f050044;
+        public static final int bt_start=0x7f050043;
         public static final int bt_tool=0x7f05003a;
-        public static final int button1=0x7f050047;
+        public static final int button1=0x7f050046;
         public static final int disableHome=0x7f05000d;
         public static final int edit_query=0x7f05002a;
-        public static final int fragment1=0x7f050042;
         public static final int homeAsUp=0x7f05000a;
         public static final int hybrid=0x7f050004;
-        public static final int iv_tool_image=0x7f050048;
+        public static final int iv_tool_image=0x7f050047;
         public static final int listMode=0x7f050006;
         public static final int map=0x7f05003b;
         public static final int mission_detail_container=0x7f05003c;
@@ -1155,17 +1160,17 @@ containing a value of this type.
         public static final int pager=0x7f05003e;
         public static final int pager_title_strip=0x7f05003f;
         public static final int satellite=0x7f050002;
-        public static final int section_label=0x7f050046;
+        public static final int section_label=0x7f050045;
         public static final int showCustom=0x7f05000c;
         public static final int showHome=0x7f050009;
         public static final int showTitle=0x7f05000b;
-        public static final int space1=0x7f050045;
+        public static final int space1=0x7f050044;
         public static final int tabMode=0x7f050007;
         public static final int terrain=0x7f050003;
         public static final int textView1=0x7f050040;
         public static final int tv_adventure=0x7f050041;
-        public static final int tv_description=0x7f050043;
-        public static final int tv_tool_description=0x7f050049;
+        public static final int tv_description=0x7f050042;
+        public static final int tv_tool_description=0x7f050048;
         public static final int useLogo=0x7f050008;
         public static final int wrap_content=0x7f050005;
     }
@@ -1262,12 +1267,10 @@ containing a value of this type.
         /**  Description of a share target (both in the list of such or the default share button) in a ShareActionProvider (share UI). [CHAR LIMIT=NONE] 
          */
         public static final int abs__shareactionprovider_share_with_application=0x7f06001c;
-        /**  Action bar items 
+        /**  @ActionBar 
+ Action bar items 
          */
         public static final int action_about=0x7f060023;
-        public static final int action_off=0x7f060039;
-        public static final int action_on=0x7f060038;
-        public static final int action_settings=0x7f060034;
         public static final int app_name=0x7f060022;
         /**   Title for notification shown when GooglePlayServices needs to be
         enabled for a application to work. [CHAR LIMIT=70] 
@@ -1292,12 +1295,16 @@ containing a value of this type.
         [CHAR LIMIT=70] 
          */
         public static final int auth_client_using_bad_version_title=0x7f06000f;
-        /**  Buttons 
+        /**  @UI Components 
+ Buttons 
          */
         public static final int bt_adventure=0x7f060024;
-        public static final int bt_close=0x7f06002d;
+        public static final int bt_close=0x7f060029;
         public static final int bt_result=0x7f060025;
-        public static final int bt_start=0x7f060030;
+        /**  @Activity 
+ Activity: AdventureDetail 
+         */
+        public static final int bt_start=0x7f06002a;
         public static final int bt_tool=0x7f060026;
         /**  Button in confirmation dialog to enable Google Play services.  Clicking it
         will direct user to application settings of Google Play services where they
@@ -1354,45 +1361,44 @@ containing a value of this type.
         /**  Long form sign-in button text [CHAR LIMIT=30] 
          */
         public static final int common_signin_button_text_long=0x7f06000e;
-        /**  About dialog 
+        /**  @Dialog 
+ Dialog: About 
          */
         public static final int developed_about=0x7f060027;
-        public static final int developed_codirector=0x7f06002c;
-        public static final int developed_director=0x7f06002b;
-        public static final int developed_lecturer=0x7f06002a;
-        public static final int developed_programmer=0x7f060029;
         public static final int developed_title=0x7f060028;
-        public static final int pref_default_display_name=0x7f060040;
-        public static final int pref_description_social_recommendations=0x7f06003e;
+        public static final int log_audio_new=0x7f06002c;
+        /**  @Log 
+ Log: Tools 
+         */
+        public static final int log_audio_on=0x7f06002b;
+        public static final int log_image_new=0x7f060030;
+        public static final int log_image_on=0x7f06002f;
+        public static final int log_lantern_off=0x7f060032;
+        public static final int log_lantern_on=0x7f060031;
+        public static final int log_video_new=0x7f06002e;
+        public static final int log_video_on=0x7f06002d;
+        public static final int pref_default_display_name=0x7f060038;
+        public static final int pref_description_social_recommendations=0x7f060036;
         /**  Example settings for Data & Sync 
          */
-        public static final int pref_header_data_sync=0x7f060042;
+        public static final int pref_header_data_sync=0x7f06003a;
         /**  Strings related to Settings 
  Example General settings 
          */
-        public static final int pref_header_general=0x7f06003c;
+        public static final int pref_header_general=0x7f060034;
         /**  Example settings for Notifications 
          */
-        public static final int pref_header_notifications=0x7f060045;
-        public static final int pref_ringtone_silent=0x7f060048;
-        public static final int pref_title_add_friends_to_messages=0x7f060041;
-        public static final int pref_title_display_name=0x7f06003f;
-        public static final int pref_title_new_message_notifications=0x7f060046;
-        public static final int pref_title_ringtone=0x7f060047;
-        public static final int pref_title_social_recommendations=0x7f06003d;
-        public static final int pref_title_sync_frequency=0x7f060043;
-        public static final int pref_title_system_sync_settings=0x7f060044;
-        public static final int pref_title_vibrate=0x7f060049;
-        public static final int title_activity_mision=0x7f06003a;
-        public static final int title_activity_settings=0x7f06003b;
-        public static final int title_activity_tool_list=0x7f060033;
-        public static final int title_adventure_detail=0x7f06002f;
-        public static final int title_adventure_list=0x7f06002e;
-        public static final int title_mission_detail=0x7f060032;
-        public static final int title_mission_list=0x7f060031;
-        public static final int title_section1=0x7f060035;
-        public static final int title_section2=0x7f060036;
-        public static final int title_section3=0x7f060037;
+        public static final int pref_header_notifications=0x7f06003d;
+        public static final int pref_ringtone_silent=0x7f060040;
+        public static final int pref_title_add_friends_to_messages=0x7f060039;
+        public static final int pref_title_display_name=0x7f060037;
+        public static final int pref_title_new_message_notifications=0x7f06003e;
+        public static final int pref_title_ringtone=0x7f06003f;
+        public static final int pref_title_social_recommendations=0x7f060035;
+        public static final int pref_title_sync_frequency=0x7f06003b;
+        public static final int pref_title_system_sync_settings=0x7f06003c;
+        public static final int pref_title_vibrate=0x7f060041;
+        public static final int title_activity_settings=0x7f060033;
     }
     public static final class style {
         /** 

@@ -4,6 +4,9 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Locale;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
@@ -26,6 +29,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ToolListActivity extends FragmentActivity {
 
@@ -35,7 +39,8 @@ public class ToolListActivity extends FragmentActivity {
 	private static String tools[];
 
 	private static final int ACTION_AUDIO = 0;
-
+	private static final int ACTION_VIDEO = 1;
+	private static final int ACTION_PICTURE = 2;
 	private static final String ROOT_PATH = Environment
 			.getExternalStorageDirectory().getAbsolutePath();
 
@@ -61,6 +66,8 @@ public class ToolListActivity extends FragmentActivity {
 	 */
 	private ViewPager mViewPager;
 
+	private Logger LOG;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -80,6 +87,8 @@ public class ToolListActivity extends FragmentActivity {
 		// Set up the ViewPager with the sections adapter.
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
+
+		LOG = LoggerFactory.getLogger(ToolListActivity.class);
 
 	}
 
@@ -118,13 +127,26 @@ public class ToolListActivity extends FragmentActivity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-		if (resultCode == RESULT_OK && requestCode == ACTION_AUDIO) {
+		if (resultCode == RESULT_OK) {
 
-			if (data.getData() != null) {
+			switch (requestCode) {
+			case ACTION_AUDIO:
+				if (data.getData() != null) {
 
-				moveToArianeDir(getRealPath(data.getData()), ROOT_PATH
-						+ AUDIO_DIRECTORY);
+					inform(R.string.log_audio_new);
+
+					moveToArianeDir(getRealPath(data.getData()), ROOT_PATH
+							+ AUDIO_DIRECTORY);
+				}
+				break;
+			case ACTION_VIDEO:
+				inform(R.string.log_video_new);
+				break;
+			case ACTION_PICTURE:
+				inform(R.string.log_image_new);
+				break;
 			}
+
 		}
 	}
 
@@ -143,6 +165,8 @@ public class ToolListActivity extends FragmentActivity {
 			ekparam.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
 
 		cam.setParameters(ekparam);
+
+		inform(R.string.log_lantern_on);
 	}
 
 	/**
@@ -151,6 +175,8 @@ public class ToolListActivity extends FragmentActivity {
 	 * @category tool
 	 */
 	public void recordAudio() {
+		inform(R.string.log_audio_on);
+
 		Intent intent = new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION);
 		startActivityForResult(intent, ACTION_AUDIO);
 	}
@@ -162,12 +188,14 @@ public class ToolListActivity extends FragmentActivity {
 	 */
 	public void recordVideo() {
 
+		inform(R.string.log_video_on);
+
 		createDirectory(ROOT_PATH + VIDEO_DIRECTORY);
 		File f = new File(ROOT_PATH + VIDEO_DIRECTORY, "prueba" + VIDEO_EXT);
 
 		Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
 		takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-		startActivityForResult(takeVideoIntent, 1);
+		startActivityForResult(takeVideoIntent, ACTION_VIDEO);
 	}
 
 	/**
@@ -177,12 +205,20 @@ public class ToolListActivity extends FragmentActivity {
 	 */
 	public void takePicture() {
 
+		inform(R.string.log_image_on);
+
 		createDirectory(ROOT_PATH + PICTURE_DIRECTORY);
 		File f = new File(ROOT_PATH + PICTURE_DIRECTORY, "prueba" + PICTURE_EXT);
 
 		Intent i = new Intent("android.media.action.IMAGE_CAPTURE");
 		i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-		startActivityForResult(i, 2);
+		startActivityForResult(i, ACTION_PICTURE);
+	}
+
+	private void inform(int resource) {
+		String msg = getResources().getString(resource);
+		LOG.info(msg);
+		Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
 	}
 
 	/**

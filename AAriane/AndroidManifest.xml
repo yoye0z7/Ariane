@@ -81,9 +81,7 @@
             android:exported="false" >
         </provider>
 
-        <activity
-            android:name=".MissionActivity"
-            android:label="@string/title_activity_mision" >
+        <activity android:name=".MissionActivity" >
         </activity>
     </application>
 

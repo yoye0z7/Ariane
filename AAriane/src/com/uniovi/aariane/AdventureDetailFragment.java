@@ -5,14 +5,19 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.uniovi.aariane.persistence.AdventureTable;
 import com.uniovi.aariane.persistence.DataProviderContract;
+import com.uniovi.aariane.persistence.MissionTable;
+import com.uniovi.aariane.util.MapConfiguration;
 
 /**
  * A fragment representing a single Adventure detail screen. This fragment is
@@ -22,6 +27,7 @@ import com.uniovi.aariane.persistence.DataProviderContract;
 public class AdventureDetailFragment extends Fragment implements
 		OnClickListener {
 
+	private GoogleMap map;
 	/**
 	 * The fragment's current callback object, which is notified of list item
 	 * clicks.
@@ -94,6 +100,30 @@ public class AdventureDetailFragment extends Fragment implements
 		}
 	}
 
+	private void setUpMapIfNeeded() {
+		// Do a null check to confirm that we have not already instantiated the
+		// map.
+		if (map == null) {
+			FragmentManager fm = getActivity().getSupportFragmentManager();
+			SupportMapFragment smf = ((SupportMapFragment) fm
+					.findFragmentById(R.id.map));
+			map = smf.getMap();
+			// Check if we were successful in obtaining the map.
+			if (map != null) {
+
+				String[] projection = { MissionTable.COL_NAM,
+						MissionTable.COL_DES, MissionTable.COL_LAT,
+						MissionTable.COL_LNG };
+
+				Cursor data = getActivity().getContentResolver().query(mItem,
+						projection, null, null, null);
+
+				// add markers to map
+				MapConfiguration.addMarkers(data, map);
+			}
+		}
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -124,6 +154,7 @@ public class AdventureDetailFragment extends Fragment implements
 
 		}
 
+		setUpMapIfNeeded();
 		rootView.findViewById(R.id.bt_start).setOnClickListener(this);
 
 		return rootView;

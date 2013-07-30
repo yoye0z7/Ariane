@@ -28,8 +28,6 @@ public class MainActivity extends SherlockFragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		// Logger LOG = LoggerFactory.getLogger(MainActivity.class);
-		// LOG.info("hello world");
 
 	}
 
@@ -82,6 +80,9 @@ public class MainActivity extends SherlockFragmentActivity {
 				DIALOG_ABOUT);
 	}
 
+	/**
+	 * A fragment representing an about dialog..
+	 */
 	public static class AboutDialog extends SherlockDialogFragment implements
 			OnClickListener {
 
@@ -102,13 +103,13 @@ public class MainActivity extends SherlockFragmentActivity {
 
 			View v = inflater
 					.inflate(R.layout.fragment_about, container, false);
-			SectionsPagerAdapter mSectionsPagerAdapter = ((MainActivity) getActivity()).new SectionsPagerAdapter(
+			
+			DevelopersPagerAdapter mSectionsPagerAdapter = ((MainActivity) getActivity()).new DevelopersPagerAdapter(
 					getChildFragmentManager());
 			// Set up the ViewPager with the sections adapter.
 			ViewPager mViewPager = (ViewPager) v.findViewById(R.id.pager);
 			mViewPager.setAdapter(mSectionsPagerAdapter);
-			// v.findViewById(R.id.bt_close).setOnClickListener(this);
-
+	
 			return v;
 		}
 
@@ -122,11 +123,11 @@ public class MainActivity extends SherlockFragmentActivity {
 	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
 	 * one of the sections/tabs/pages.
 	 */
-	public class SectionsPagerAdapter extends FragmentPagerAdapter {
+	public class DevelopersPagerAdapter extends FragmentPagerAdapter {
 		private String developers[] = { "Developer", "Doctor", "Director",
 				"CoDirector", "Uniovi" };
 
-		public SectionsPagerAdapter(FragmentManager fm) {
+		public DevelopersPagerAdapter(FragmentManager fm) {
 			super(fm);
 		}
 
@@ -148,31 +149,31 @@ public class MainActivity extends SherlockFragmentActivity {
 	}
 
 	/**
-	 * A dummy fragment representing a section of the app, but that simply
-	 * displays dummy text.
+	 * A fragment representing a participant of the app, but that simply
+	 * displays a short description.
 	 */
 	public static class DeveloperFragment extends Fragment {
 		/**
-		 * The fragment argument representing the section number for this
+		 * The fragment argument representing the developer number for this
 		 * fragment.
 		 */
-		private static final String ARG_TOOL_NUMBER = "tool_number";
+		private static final String ARG_DEVELOPER_NUMBER = "developer_number";
 
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
 
-			if (getArguments().containsKey(ARG_TOOL_NUMBER)) {
+			if (getArguments().containsKey(ARG_DEVELOPER_NUMBER)) {
 
 			}
 		}
 
-		public static DeveloperFragment newInstance(int tool) {
+		public static DeveloperFragment newInstance(int developer) {
 			DeveloperFragment f = new DeveloperFragment();
 
 			// Supply index input as an argument.
 			Bundle args = new Bundle();
-			args.putInt(ARG_TOOL_NUMBER, tool);
+			args.putInt(ARG_DEVELOPER_NUMBER, developer);
 			f.setArguments(args);
 
 			return f;
