@@ -103,13 +103,13 @@ public class MainActivity extends SherlockFragmentActivity {
 
 			View v = inflater
 					.inflate(R.layout.fragment_about, container, false);
-			
+
 			DevelopersPagerAdapter mSectionsPagerAdapter = ((MainActivity) getActivity()).new DevelopersPagerAdapter(
 					getChildFragmentManager());
 			// Set up the ViewPager with the sections adapter.
 			ViewPager mViewPager = (ViewPager) v.findViewById(R.id.pager);
 			mViewPager.setAdapter(mSectionsPagerAdapter);
-	
+
 			return v;
 		}
 

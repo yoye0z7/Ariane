@@ -33,7 +33,7 @@
         android:id="@+id/tv_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_alignBottom="@+id/map"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/tv_adventure"
         android:layout_toLeftOf="@+id/space1"
@@ -48,5 +48,13 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:text="@string/bt_start" />
+
+    <RatingBar
+        android:id="@+id/rb_dificult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:numStars="5" />
 
 </RelativeLayout>

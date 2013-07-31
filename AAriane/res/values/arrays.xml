@@ -8,6 +8,7 @@
         <item>Audio</item>
         <item>Camera</item>
         <item>Video</item>
+        <item>Compass</item>
         <item>Questionnaire</item>
     </string-array>
     <string-array name="methods">
@@ -16,6 +17,7 @@
         <item>recordAudio</item>
         <item>takePicture</item>
         <item>recordVideo</item>
+        <item>showCompass</item>
         <item>createQuestionnaire</item>
     </string-array>
     <string-array name="descriptions">
@@ -24,6 +26,7 @@
         <item>Record the sounds around you to ease your way through the adventure</item>
         <item>Take a snapshot of your surroundings</item>
         <item>Make a recording of your surroundings and use it to pass the various tests</item>
+        <item>Orient yourself using compass</item>
         <item>Questionnaire</item>
     </string-array>
 

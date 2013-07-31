@@ -81,7 +81,12 @@
             android:exported="false" >
         </provider>
 
-        <activity android:name=".MissionActivity" >
+        <activity android:name="com.uniovi.aariane.MissionActivity" >
+        </activity>
+        
+        <activity
+            android:name="com.uniovi.aariane.CompassActivity"
+            android:theme="@android:style/Theme.Dialog" >
         </activity>
     </application>
 

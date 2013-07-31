@@ -41,6 +41,7 @@ public class ToolListActivity extends FragmentActivity {
 	private static final int ACTION_AUDIO = 0;
 	private static final int ACTION_VIDEO = 1;
 	private static final int ACTION_PICTURE = 2;
+	private static final int ACTION_COMPASS = 3;
 	private static final String ROOT_PATH = Environment
 			.getExternalStorageDirectory().getAbsolutePath();
 
@@ -139,15 +140,27 @@ public class ToolListActivity extends FragmentActivity {
 							+ AUDIO_DIRECTORY);
 				}
 				break;
+
 			case ACTION_VIDEO:
 				inform(R.string.log_video_new);
 				break;
+
 			case ACTION_PICTURE:
 				inform(R.string.log_image_new);
 				break;
-			}
 
+			case ACTION_COMPASS:
+				inform(R.string.log_compass_off);
+				break;
+			}
 		}
+	}
+
+	public void showCompass() {
+		inform(R.string.log_compass_on);
+
+		Intent intent = new Intent(this, CompassActivity.class);
+		startActivityForResult(intent,ACTION_COMPASS);
 	}
 
 	/**

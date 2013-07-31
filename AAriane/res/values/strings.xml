@@ -33,5 +33,7 @@
     <string name="log_image_new">Image created</string>
     <string name="log_lantern_on">Lantern on</string>
     <string name="log_lantern_off">Lantern off</string>
+    <string name="log_compass_on">Compass on</string>
+    <string name="log_compass_off">Compass off</string>
 
 </resources>

@@ -15,10 +15,6 @@ public final class R {
         public static final int jobs=0x7f0b0003;
         public static final int methods=0x7f0b0001;
         public static final int participantes=0x7f0b0004;
-        public static final int pref_example_list_titles=0x7f0b0005;
-        public static final int pref_example_list_values=0x7f0b0006;
-        public static final int pref_sync_frequency_titles=0x7f0b0007;
-        public static final int pref_sync_frequency_values=0x7f0b0008;
         /**  @Reflection 
          */
         public static final int tools=0x7f0b0000;
@@ -819,10 +815,11 @@ containing a value of this type.
         public static final int abs__bright_foreground_disabled_holo_light=0x7f04000f;
         public static final int abs__bright_foreground_holo_dark=0x7f04000c;
         public static final int abs__bright_foreground_holo_light=0x7f04000d;
-        public static final int abs__primary_text_disable_only_holo_dark=0x7f040012;
-        public static final int abs__primary_text_disable_only_holo_light=0x7f040013;
-        public static final int abs__primary_text_holo_dark=0x7f040014;
-        public static final int abs__primary_text_holo_light=0x7f040015;
+        public static final int abs__primary_text_disable_only_holo_dark=0x7f04001e;
+        public static final int abs__primary_text_disable_only_holo_light=0x7f04001f;
+        public static final int abs__primary_text_holo_dark=0x7f040020;
+        public static final int abs__primary_text_holo_light=0x7f040021;
+        public static final int background_color=0x7f040013;
         public static final int black=0x7f040010;
         public static final int common_action_bar_splitter=0x7f040009;
         /**  Sign-in Button Colors 
@@ -836,8 +833,19 @@ containing a value of this type.
         public static final int common_signin_btn_light_text_disabled=0x7f040006;
         public static final int common_signin_btn_light_text_focused=0x7f040007;
         public static final int common_signin_btn_light_text_pressed=0x7f040005;
-        public static final int common_signin_btn_text_dark=0x7f040016;
-        public static final int common_signin_btn_text_light=0x7f040017;
+        public static final int common_signin_btn_text_dark=0x7f040022;
+        public static final int common_signin_btn_text_light=0x7f040023;
+        public static final int horizon_ground_from=0x7f04001c;
+        public static final int horizon_ground_to=0x7f04001d;
+        public static final int horizon_sky_from=0x7f04001a;
+        public static final int horizon_sky_to=0x7f04001b;
+        public static final int inner_border=0x7f040019;
+        public static final int inner_border_one=0x7f040017;
+        public static final int inner_border_two=0x7f040018;
+        public static final int marker_color=0x7f040014;
+        public static final int outer_border=0x7f040016;
+        public static final int shadow_color=0x7f040015;
+        public static final int text_color=0x7f040012;
         public static final int white=0x7f040011;
     }
     public static final class dimen {
@@ -1088,13 +1096,14 @@ containing a value of this type.
         public static final int common_signin_btn_text_normal_light=0x7f02008a;
         public static final int common_signin_btn_text_pressed_dark=0x7f02008b;
         public static final int common_signin_btn_text_pressed_light=0x7f02008c;
-        public static final int draw=0x7f02008d;
-        public static final int ic_about_dark=0x7f02008e;
-        public static final int ic_about_light=0x7f02008f;
-        public static final int ic_launcher=0x7f020090;
-        public static final int lantern=0x7f020091;
-        public static final int questionnaire=0x7f020092;
-        public static final int video=0x7f020093;
+        public static final int compass=0x7f02008d;
+        public static final int draw=0x7f02008e;
+        public static final int ic_about_dark=0x7f02008f;
+        public static final int ic_about_light=0x7f020090;
+        public static final int ic_launcher=0x7f020091;
+        public static final int lantern=0x7f020092;
+        public static final int questionnaire=0x7f020093;
+        public static final int video=0x7f020094;
     }
     public static final class id {
         public static final int abs__action_bar=0x7f050024;
@@ -1136,41 +1145,43 @@ containing a value of this type.
         public static final int abs__textButton=0x7f050017;
         public static final int abs__title=0x7f05001f;
         public static final int abs__up=0x7f05000f;
-        public static final int action_about=0x7f05004a;
-        public static final int action_create=0x7f050049;
-        public static final int action_settings=0x7f05004b;
+        public static final int action_about=0x7f05004c;
+        public static final int action_create=0x7f05004b;
+        public static final int action_settings=0x7f05004d;
         public static final int adventure_detail_container=0x7f050036;
         public static final int adventure_list=0x7f050037;
-        public static final int bt_adventure=0x7f050039;
-        public static final int bt_result=0x7f050038;
-        public static final int bt_start=0x7f050043;
-        public static final int bt_tool=0x7f05003a;
-        public static final int button1=0x7f050046;
+        public static final int bt_adventure=0x7f05003a;
+        public static final int bt_result=0x7f050039;
+        public static final int bt_start=0x7f050044;
+        public static final int bt_tool=0x7f05003b;
+        public static final int button1=0x7f050048;
+        public static final int compassView=0x7f050038;
         public static final int disableHome=0x7f05000d;
         public static final int edit_query=0x7f05002a;
         public static final int homeAsUp=0x7f05000a;
         public static final int hybrid=0x7f050004;
-        public static final int iv_tool_image=0x7f050047;
+        public static final int iv_tool_image=0x7f050049;
         public static final int listMode=0x7f050006;
-        public static final int map=0x7f05003b;
-        public static final int mission_detail_container=0x7f05003c;
-        public static final int mission_list=0x7f05003d;
+        public static final int map=0x7f05003c;
+        public static final int mission_detail_container=0x7f05003d;
+        public static final int mission_list=0x7f05003e;
         public static final int none=0x7f050000;
         public static final int normal=0x7f050001;
-        public static final int pager=0x7f05003e;
-        public static final int pager_title_strip=0x7f05003f;
+        public static final int pager=0x7f05003f;
+        public static final int pager_title_strip=0x7f050040;
+        public static final int rb_dificult=0x7f050045;
         public static final int satellite=0x7f050002;
-        public static final int section_label=0x7f050045;
+        public static final int section_label=0x7f050047;
         public static final int showCustom=0x7f05000c;
         public static final int showHome=0x7f050009;
         public static final int showTitle=0x7f05000b;
-        public static final int space1=0x7f050044;
+        public static final int space1=0x7f050046;
         public static final int tabMode=0x7f050007;
         public static final int terrain=0x7f050003;
-        public static final int textView1=0x7f050040;
-        public static final int tv_adventure=0x7f050041;
-        public static final int tv_description=0x7f050042;
-        public static final int tv_tool_description=0x7f050048;
+        public static final int textView1=0x7f050041;
+        public static final int tv_adventure=0x7f050042;
+        public static final int tv_description=0x7f050043;
+        public static final int tv_tool_description=0x7f05004a;
         public static final int useLogo=0x7f050008;
         public static final int wrap_content=0x7f050005;
     }
@@ -1203,22 +1214,23 @@ containing a value of this type.
         public static final int activity_adventure_detail=0x7f030016;
         public static final int activity_adventure_list=0x7f030017;
         public static final int activity_adventure_twopane=0x7f030018;
-        public static final int activity_main=0x7f030019;
-        public static final int activity_mision=0x7f03001a;
-        public static final int activity_mission_detail=0x7f03001b;
-        public static final int activity_mission_list=0x7f03001c;
-        public static final int activity_mission_twopane=0x7f03001d;
-        public static final int activity_tool_list=0x7f03001e;
-        public static final int fragment_about=0x7f03001f;
-        public static final int fragment_about_detail=0x7f030020;
-        public static final int fragment_adventure_detail=0x7f030021;
-        public static final int fragment_mision_dummy=0x7f030022;
-        public static final int fragment_mission_detail=0x7f030023;
-        public static final int fragment_tool_list_dummy=0x7f030024;
-        public static final int list_item=0x7f030025;
-        public static final int list_item_activated=0x7f030026;
-        public static final int sherlock_spinner_dropdown_item=0x7f030027;
-        public static final int sherlock_spinner_item=0x7f030028;
+        public static final int activity_compass=0x7f030019;
+        public static final int activity_main=0x7f03001a;
+        public static final int activity_mision=0x7f03001b;
+        public static final int activity_mission_detail=0x7f03001c;
+        public static final int activity_mission_list=0x7f03001d;
+        public static final int activity_mission_twopane=0x7f03001e;
+        public static final int activity_tool_list=0x7f03001f;
+        public static final int fragment_about=0x7f030020;
+        public static final int fragment_about_detail=0x7f030021;
+        public static final int fragment_adventure_detail=0x7f030022;
+        public static final int fragment_mision_dummy=0x7f030023;
+        public static final int fragment_mission_detail=0x7f030024;
+        public static final int fragment_tool_list_dummy=0x7f030025;
+        public static final int list_item=0x7f030026;
+        public static final int list_item_activated=0x7f030027;
+        public static final int sherlock_spinner_dropdown_item=0x7f030028;
+        public static final int sherlock_spinner_item=0x7f030029;
     }
     public static final class menu {
         public static final int adventure_list=0x7f0c0000;
@@ -1371,34 +1383,14 @@ containing a value of this type.
  Log: Tools 
          */
         public static final int log_audio_on=0x7f06002b;
+        public static final int log_compass_off=0x7f060034;
+        public static final int log_compass_on=0x7f060033;
         public static final int log_image_new=0x7f060030;
         public static final int log_image_on=0x7f06002f;
         public static final int log_lantern_off=0x7f060032;
         public static final int log_lantern_on=0x7f060031;
         public static final int log_video_new=0x7f06002e;
         public static final int log_video_on=0x7f06002d;
-        public static final int pref_default_display_name=0x7f060038;
-        public static final int pref_description_social_recommendations=0x7f060036;
-        /**  Example settings for Data & Sync 
-         */
-        public static final int pref_header_data_sync=0x7f06003a;
-        /**  Strings related to Settings 
- Example General settings 
-         */
-        public static final int pref_header_general=0x7f060034;
-        /**  Example settings for Notifications 
-         */
-        public static final int pref_header_notifications=0x7f06003d;
-        public static final int pref_ringtone_silent=0x7f060040;
-        public static final int pref_title_add_friends_to_messages=0x7f060039;
-        public static final int pref_title_display_name=0x7f060037;
-        public static final int pref_title_new_message_notifications=0x7f06003e;
-        public static final int pref_title_ringtone=0x7f06003f;
-        public static final int pref_title_social_recommendations=0x7f060035;
-        public static final int pref_title_sync_frequency=0x7f06003b;
-        public static final int pref_title_system_sync_settings=0x7f06003c;
-        public static final int pref_title_vibrate=0x7f060041;
-        public static final int title_activity_settings=0x7f060033;
     }
     public static final class style {
         /** 
